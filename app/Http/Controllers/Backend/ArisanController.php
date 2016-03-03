@@ -184,6 +184,8 @@ class ArisanController extends CapsuleController
 
     public function getWin($id)
     {
-        echo "Selamat";
+        $model = $this->mix->findOrFail($id);
+
+        return view('oblagio.arisan.win',compact('model'));
     }
 }
