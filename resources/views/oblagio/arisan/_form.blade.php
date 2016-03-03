@@ -9,7 +9,8 @@
           <div class="box-body">
 	      
 	        @include('oblagio.common.error_validation')
-	      
+	      	<?php /*
+            
 	        <div class="form-group">
               <label>Start Date</label>
               {!! Form::text('start_date',null,['class'=>'form-control','id'=>'datepicker','readonly'=>true]) !!}
@@ -18,6 +19,13 @@
             <div class="form-group">
               <label>Due Date</label>
               {!! Form::text('due_date',null,['class'=>'form-control']) !!}
+            </div>
+
+            */ ?>
+
+            <div class="form-group">
+              <label>Group Name</label>
+              {!! Form::text('name_group',null,['class'=>'form-control']) !!}
             </div>
 
             <div class="form-group">
@@ -70,7 +78,6 @@
 @section('script')
 	
 	<script type="text/javascript">
-		
 		$(document).ready(function(){
 			$("#table").DataTable();
 
@@ -83,12 +90,6 @@
 			});
 
 		});
-
-		function explode(){
-		  alert("Boom!");
-		}
-		setTimeout(explode, 2000);
-
 	</script>
 
 @endsection

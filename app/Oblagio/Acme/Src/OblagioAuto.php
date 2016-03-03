@@ -51,3 +51,10 @@ function carbonParse($parse,$format)
 {
 	return og()->carbon()->parse($parse)->format($format);
 }
+
+function Rp($money)
+{
+	$format = number_format($money , 2);
+
+	return substr(str_replace(",",'.',$format),0,-3);
+}

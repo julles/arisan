@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2016-03-03 14:01:28
+Date: 2016-03-04 05:35:34
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -85,13 +85,37 @@ CREATE TABLE `arisans` (
   `deposit` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
+  `updated_by` int(10) unsigned NOT NULL,
+  `name_group` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `arisans_deposit_index` (`deposit`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of arisans
 -- ----------------------------
+INSERT INTO arisans VALUES ('3', '0000-00-00', '0', '10000', '2016-03-03 21:08:42', '2016-03-03 21:08:42', '1', 'Blackocek');
+
+-- ----------------------------
+-- Table structure for `arisans_deposits`
+-- ----------------------------
+DROP TABLE IF EXISTS `arisans_deposits`;
+CREATE TABLE `arisans_deposits` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `arisan_detail_id` int(10) unsigned NOT NULL,
+  `putaran_ke` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `arisans_deposits_arisan_detail_id_foreign` (`arisan_detail_id`),
+  CONSTRAINT `arisans_deposits_arisan_detail_id_foreign` FOREIGN KEY (`arisan_detail_id`) REFERENCES `arisan_details` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
+-- Records of arisans_deposits
+-- ----------------------------
+INSERT INTO arisans_deposits VALUES ('6', '5', '1', '2016-03-03 22:04:07', '2016-03-03 22:04:07');
+INSERT INTO arisans_deposits VALUES ('7', '6', '1', '2016-03-03 22:04:07', '2016-03-03 22:04:07');
 
 -- ----------------------------
 -- Table structure for `arisan_details`
@@ -109,11 +133,37 @@ CREATE TABLE `arisan_details` (
   KEY `arisan_details_user_id_foreign` (`user_id`),
   CONSTRAINT `arisan_details_arisan_id_foreign` FOREIGN KEY (`arisan_id`) REFERENCES `arisans` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `arisan_details_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of arisan_details
 -- ----------------------------
+INSERT INTO arisan_details VALUES ('5', '3', '8', '0', '2016-03-03 21:08:42', '2016-03-03 21:08:42');
+INSERT INTO arisan_details VALUES ('6', '3', '9', '0', '2016-03-03 21:08:42', '2016-03-03 21:08:42');
+
+-- ----------------------------
+-- Table structure for `arisan_mix`
+-- ----------------------------
+DROP TABLE IF EXISTS `arisan_mix`;
+CREATE TABLE `arisan_mix` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `arisan_id` int(10) unsigned NOT NULL,
+  `putaran_ke` int(11) NOT NULL,
+  `pemenang` int(10) unsigned NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `arisan_mix_arisan_id_foreign` (`arisan_id`),
+  KEY `arisan_mix_pemenang_foreign` (`pemenang`),
+  CONSTRAINT `arisan_mix_arisan_id_foreign` FOREIGN KEY (`arisan_id`) REFERENCES `arisans` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `arisan_mix_pemenang_foreign` FOREIGN KEY (`pemenang`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
+-- Records of arisan_mix
+-- ----------------------------
+INSERT INTO arisan_mix VALUES ('2', '3', '1', '8', '2016-03-03 22:33:23', '2016-03-03 22:33:23');
+INSERT INTO arisan_mix VALUES ('3', '3', '1', '8', '2016-03-03 22:34:03', '2016-03-03 22:34:03');
 
 -- ----------------------------
 -- Table structure for `city`
@@ -823,6 +873,9 @@ INSERT INTO migrations VALUES ('2016_02_28_183253_create_rights_table', '1');
 INSERT INTO migrations VALUES ('2016_03_03_050545_add_field_users_version1', '2');
 INSERT INTO migrations VALUES ('2016_03_03_053514_create_arisans_table', '3');
 INSERT INTO migrations VALUES ('2016_03_03_053837_create_arisan_details_table', '4');
+INSERT INTO migrations VALUES ('2016_03_03_204751_add_field_name_group_in_arisans', '5');
+INSERT INTO migrations VALUES ('2016_03_03_210128_create_arisan_deposits', '6');
+INSERT INTO migrations VALUES ('2016_03_03_211117_create_mix_table', '7');
 
 -- ----------------------------
 -- Table structure for `person`
@@ -847,7 +900,7 @@ CREATE TABLE `person` (
   `updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1 AVG_ROW_LENGTH=8192;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1 AVG_ROW_LENGTH=8192;
 
 -- ----------------------------
 -- Records of person

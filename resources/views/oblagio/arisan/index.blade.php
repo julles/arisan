@@ -12,9 +12,8 @@
 	      	<table class="table table-bordered" id="table">
 		        <thead>
 		            <tr>
-		                <th width="30%">Start Date</th>
-		                <th width="20%">Due Date</th>
-		                <th width="20%">Deposit</th>
+		                <th width="40%">Name Group</th>
+		                <th width="40%">Deposit</th>
 		                <th width="20%">Action</th>
 		            </tr>
 		        </thead>
@@ -39,8 +38,7 @@
         serverSide: true,
         ajax: '{{og()->urlBackendAction("data")}}',
         columns: [
-            { data: 'start_date', name: 'start_date' },
-            { data: 'due_date', name: 'due_date'},
+            { data: 'name_group', name: 'name_group' },
             { data: 'deposit', name: 'deposit' },
             { data: 'action', name: 'action',"searchable": false ,'orderable' : false },
         ]
