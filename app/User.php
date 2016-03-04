@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\Role;
-use App\Models\User;
+//use App\Models\User;
 
 class User extends Authenticatable
 {
