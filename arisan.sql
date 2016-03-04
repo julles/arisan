@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2016-03-04 05:35:34
+Date: 2016-03-04 12:27:19
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -157,13 +157,12 @@ CREATE TABLE `arisan_mix` (
   KEY `arisan_mix_pemenang_foreign` (`pemenang`),
   CONSTRAINT `arisan_mix_arisan_id_foreign` FOREIGN KEY (`arisan_id`) REFERENCES `arisans` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `arisan_mix_pemenang_foreign` FOREIGN KEY (`pemenang`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of arisan_mix
 -- ----------------------------
-INSERT INTO arisan_mix VALUES ('2', '3', '1', '8', '2016-03-03 22:33:23', '2016-03-03 22:33:23');
-INSERT INTO arisan_mix VALUES ('3', '3', '1', '8', '2016-03-03 22:34:03', '2016-03-03 22:34:03');
+INSERT INTO arisan_mix VALUES ('4', '3', '1', '9', '2016-03-03 22:46:52', '2016-03-03 22:46:52');
 
 -- ----------------------------
 -- Table structure for `city`
