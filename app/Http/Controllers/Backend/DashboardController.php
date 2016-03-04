@@ -11,7 +11,7 @@ class DashboardController extends CapsuleController
 {
 	public function __construct()
 	{
-		parent::__construct();
+		//parent::__construct();
 	}
 
     public function getIndex()

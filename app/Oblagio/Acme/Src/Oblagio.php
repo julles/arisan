@@ -311,8 +311,12 @@ class Oblagio
 
 	public function user()
 	{
-		$user = \Auth::user();
-		return $user;
+		if(\Auth::check())
+		{
+			$user = \Auth::user();
+			return $user;
+		}	
+			
 	}
 
 	public function carbon()
