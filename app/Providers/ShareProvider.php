@@ -18,7 +18,7 @@ class ShareProvider extends ServiceProvider
         view()->share('getUserCapsule',\Auth::user());
         view()->share('modelMenu',$this->menu);
         view()->share('menuAttribute',menuAttribute());
-        view()->share('menuParent' ,  menuAttributeFind(menuAttribute()->parent_id));
+        //view()->share('menuParent' ,  menuAttributeFind(menuAttribute()->parent_id));
     }
 
     /**
