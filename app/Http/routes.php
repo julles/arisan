@@ -20,7 +20,7 @@ Route::group(['prefix' => og()->backendUrl , 'middleware' => ['auth']],function(
 		Route::auth();
 		if(\Schema::hasTable('menus'))
 		{
-			foreach(og()->menu()->where('permalink','!=','#')->get() as $row)
+			foreach(og()->menu()->whereRaw('permalink != "#"')->get() as $row)
 			{
 				$controllerPath = app_path('Http/Controllers/'.$row->controller.'.php');
 

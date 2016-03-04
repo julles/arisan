@@ -29,15 +29,17 @@ class UserController extends CapsuleController
 
 	public function getData()
 	{
-		$model = $this->model->select('users.id','username','email','users.name','roles.name AS role_name')
+		$model = $this->model->select('users.id','username','email','users.name','role_id')
 
-			->join('roles','roles.id','=','users.id')
-
+			
 			->orderBy('users.created_at','desc');
 
 		$tables = Table::of($model)
-			->addColumn('action',function($model){
-    			 return og()->links($model->id , ['update','delete']);
+			->addColumn('rolena',function($model){
+    			 return Role::find($model->role_id)->name;
+            })
+            ->addColumn('action',function($model){
+                 return og()->links($model->id , ['update','delete']);
             })
 			->make(true);
 

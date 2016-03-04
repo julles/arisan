@@ -40,7 +40,7 @@
         serverSide: true,
         ajax: '{{og()->urlBackendAction("data")}}',
         columns: [
-            { data: 'role_name', name: 'roles.name' },
+            { data: 'rolena', name: 'rolena',"searchable": false ,'orderable' : false },
             { data: 'username', name: 'username' },
             { data: 'users.name', name: 'users.name' },
             { data: 'email', name: 'email' },
