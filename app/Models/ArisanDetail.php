@@ -13,7 +13,7 @@ class ArisanDetail extends Model
 	public $guarded = [];
 
 	protected $table = 'arisan_details';
-
+    
     public function arisan()
     {
     	return $this->belongsTo(Arisan::class);

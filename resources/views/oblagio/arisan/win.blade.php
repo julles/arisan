@@ -12,7 +12,7 @@ $user = App\User::find($model->pemenang);
 	        @include('oblagio.common.error_validation')
 	      
 	        <div class="form-group">
-              <h3>Selamat kepada <b>{{ $user->name }}</b> yang memenangkan arisan pada putaran ke {{ $model->putaran_ke }}</h3>
+              <h3>Selamat kepada <b>{{ $user->name }}</b> yang memenangkan arisan pada putaran ke {{ $model->putaran_ke }} dengan nomor urut {{ $model->arisan_detail->urutan_pemenang}}</h3>
               <br/>
 
               <img src="{{ og()->assetUrl.'contents/'.$user->avatar }}">

@@ -9,24 +9,37 @@
           <div class="box-body">
 	      
 	        @include('oblagio.common.error_validation')
+	         @include('oblagio.common.all_flashes')
 	      
 	        <h3>Daftar Peserta</h3>
 
             <table class="table table-bordered" id="table">
 		        <thead>
 		            <tr>
-		                <th width="50%">Name</th>
-		                <th width="50%">Username</th>
-		               <?php /* <th width="20%">Bulan ke</th> */?>
+		               <th width="">Name</th>
+		               <th width="">Username</th>
+		               <th width="">Nomor Urut</th>
+		               <th width="">Total Pembayaran 1 bulan</th>
+
 		            </tr>
 		        </thead>
 		        <tbody>
 		        	@foreach($followers as $row)
-
 		        	<tr>
 		        		<td>{{ $row->name }}</td>
 		       			<td>{{ $row->username }}</td>
-		       			<?php /*<td>{{ $row->pivot->urutan_pemenang }}</td> */?>
+		       			<td>
+			       			<?php
+			       			$detailna = $detail->whereArisanId($row->pivot->arisan_id)->whereUserId($row->pivot->user_id);
+			       				$str = "";
+			       				foreach($detailna->get() as $r)
+			       				{
+			       					$str.=$r->urutan_pemenang.',';
+			       				}
+			       				echo substr($str ,0,-1);
+			       			?>
+		       			</td>
+		       			<td>{{ Rp($model->deposit * $detailna->count()) }}</td> 
 		       	 	</tr>
 
 		        	@endforeach

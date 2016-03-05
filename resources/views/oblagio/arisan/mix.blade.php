@@ -6,33 +6,38 @@
 		
 		{!! Form::model($model,['files'=>true,'id'=>'form']) !!}
         
-          <div class="box-body">
+           <div class="box-body">
 	      
-	        @include('oblagio.common.all_flashes')
+	        @include('oblagio.common.error_validation')
+	         @include('oblagio.common.all_flashes')
 	      
-	        <h3>Daftar Peserta {{ $model->name_group }}</h3>
-
-	        <h4>Pembayaran Arisan ke : {{ $lastPutaran + 1 }}</h4>
-
-			<h5>Deposit : {{ Rp($model->deposit) }}</h5>
-	        
-
-			<hr/>
+	        <h3>Daftar Peserta Pengocokan</h3>
 
             <table class="table table-bordered" id="table">
 		        <thead>
 		            <tr>
-		                <th width="50%">Name</th>
-		                <th width="50%">Username</th>
-		                
+		               <th width="">Name</th>
+		               <th width="">Username</th>
+		               <th width="">Nomor Urut</th>
+		               
 		            </tr>
 		        </thead>
 		        <tbody>
-		        	@foreach($model->users as $row)
-
+		        	@foreach($followers as $row)
 		        	<tr>
 		        		<td>{{ $row->name }}</td>
 		       			<td>{{ $row->username }}</td>
+		       			<td>
+			       			<?php
+			       			$detailna = $detail->whereArisanId($row->pivot->arisan_id)->whereRaw("flag_win = 'n'")->whereUserId($row->pivot->user_id);
+			       				$str = "";
+			       				foreach($detailna->get() as $r)
+			       				{
+			       					$str.=$r->urutan_pemenang.',';
+			       				}
+			       				echo substr($str ,0,-1);
+			       			?>
+		       			</td>
 		       	 	</tr>
 
 		        	@endforeach

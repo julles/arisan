@@ -40,9 +40,10 @@
             <table class="table table-bordered" id="table">
 		        <thead>
 		            <tr>
-		                <th width="40%">Name</th>
-		                <th width="40%">Username</th>
-		                <th width="20%">-</th>
+		                <th width="">Name</th>
+		                <th width="">Username</th>
+		                <th width="">Invite</th>
+		                <th width="">Total Kepesertaan</th>
 		            </tr>
 		        </thead>
 		        <tbody>
@@ -52,7 +53,7 @@
 		        		<td>{{ $row->name }}</td>
 		       			<td>{{ $row->username }}</td>
 		       			<td><input type = 'checkbox' name = 'user_id[]' value = '{{ $row->id }}' /></td>
-		       
+		       			<td><input type = 'text' name = 'total[]'  /></td>
 		       	 	</tr>
 
 		        	@endforeach

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Arisan;
+use App\Models\ArisanDetail;
 use App\User;
 
 class ArisanMix extends Model
@@ -15,6 +16,11 @@ class ArisanMix extends Model
     public function arisan()
     {
     	return $this->belongsTo(Arisan::class,'arisan_id');
+    }
+
+    public function arisan_detail()
+    {
+        return $this->belongsTo(ArisanDetail::class,'arisan_detail_id');
     }
 
     public function pemenang()

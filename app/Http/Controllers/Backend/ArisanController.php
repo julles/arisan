@@ -35,9 +35,13 @@ class ArisanController extends CapsuleController
 
                 $view = '<a class = "btn btn-success" href = "'.og()->urlBackendAction('generate/'.$model->id).'">View</a>&nbsp;';
                 $pay = '<a class = "btn btn-warning" href = "'.og()->urlBackendAction('pay/'.$model->id).'">Pay</a>&nbsp;';
-                $mix = '<a class = "btn btn-primary" href = "'.og()->urlBackendAction('mix/'.$model->id).'">Mix</a>';
-
-    			return og()->links($model->id,[],[$view,$pay,$mix]);
+                $mix = '<a class = "btn btn-primary" href = "'.og()->urlBackendAction('mix/'.$model->id).'">Kocok</a>';
+                if($this->detail->whereArisanId($model->id)->whereFlagWin('n')->count() > 0)
+                {
+    			 return og()->links($model->id,[],[$view,$mix]);
+                }else{
+                    return '<label class = "alert alert-danger">Sudah Selesai</label>';
+                }
     		})
     		->make(true);
     	
@@ -80,15 +84,32 @@ class ArisanController extends CapsuleController
 			{
 				if(!empty($request->user_id[$a]))
 				{
-					$detail = $this->detail->create([
-						'arisan_id'			=> $save->id,
-						'user_id'			=> $request->user_id[$a],
-						'urutan_pemenang'	=> 0,
-					]);
+                    for($i=0;$i<$request->total[$a];$i++)
+                    {
+                        $detail = $this->detail->create([
+                            'arisan_id'         => $save->id,
+                            'user_id'           => $request->user_id[$a],
+                            'urutan_pemenang'   => 0,
+                        ]);
+                    }
+
+    					
 				}
     		}
 
-    		DB::commit();
+            $model = $this->detail->whereRaw("arisan_id='".$save->id."'");
+
+            $count = $model->count();
+
+           
+            for($x=1;$x<=$count;$x++)
+            {
+                $model->where('urutan_pemenang','=',0)->orderBy(DB::raw('rand()'))->first()->update([
+                    'urutan_pemenang' => $x,
+                ]);
+            }
+
+            DB::commit();
 
     		return redirect(og()->urlBackendAction('generate/'.$save->id));
 
@@ -103,9 +124,11 @@ class ArisanController extends CapsuleController
     {
     	$model = $this->model->find($id);
 
-    	$followers = $model->users()->orderBy('urutan_pemenang','asc')->get();
+    	$followers = $model->users()->groupBy('user_id')->get();
 
-    	return view('oblagio.arisan.generate',compact('model','followers'));
+        $detail = $this->detail; 
+
+    	return view('oblagio.arisan.generate',compact('model','followers','detail'));
     }
 
     public function getPay($id)
@@ -157,26 +180,29 @@ class ArisanController extends CapsuleController
 
     public function getMix($id)
     {
-        $model = $this->model->findOrFail($id);
-        
-        $mix = $this->mix;
+        $model = $this->model->find($id);
 
-        $lastPutaran =  $model->arisan_mix->count();
-        
-        return view('oblagio.arisan.mix',compact('model','lastPutaran','mix'));
+        $followers = $model->users()->groupBy('user_id')->get();
+
+        $detail = $this->detail; 
+
+        return view('oblagio.arisan.mix',compact('model','followers','detail'));
     }
 
     public function postMix($id)
     {
         $model = $this->model->findOrFail($id);
         $lastPutaran =  $model->arisan_mix->count() + 1;
-        $rand = $model->users()->orderBy(DB::raw('RAND()'))->first();
+        $rand = $model->users()->where('flag_win','=','n')->orderBy(DB::raw('RAND()'))->first();
 
         $win = $this->mix->create([
             'arisan_id'     => $model->id,
             'putaran_ke'    => $lastPutaran,
             'pemenang'      => $rand->id,
+            'arisan_detail_id' => $rand->pivot->id,
         ]);
+
+        $this->detail->find($rand->pivot->id)->update(['flag_win' => 'y']);
 
         return redirect(og()->urlBackendAction('win/'.$win->id));
 
